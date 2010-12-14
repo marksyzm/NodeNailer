@@ -1,0 +1,7 @@
+#!/usr/bin/env node
+
+var path = require('path');
+var fs   = require('fs');
+var lib  = '../vendor/coffee-script/';
+
+require(lib + '/command').run();
