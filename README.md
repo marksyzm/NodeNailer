@@ -3,19 +3,37 @@
 This is a small Node app built using express framework on top of node to thumbnail images.  
 Currently it accepts a publicly available image url as a query parameter, caches the original image, and then exposes arbitrary thumbnail sizes.  Node was chosen to avoid backing up the request loop while images are cached and thumbnailed.
 
-The basic url look as follows:
+# Starting the server
+Run `npm bundle` to pull the latest dependencies.
+From the base directory, run:
 
-    GET /?url=http://sample.com/image.jpg&w=50&h=100
+`node app/server.js`
     
-If `w` or `h` are not specified, the image will be cached and the width and height will be returned as JSON:
+# Parameters
+
+* w = width in pixels; required
+* h = height in pixels; required
+* method = ['crop', 'resize']; defaults to 'crop'
+* info = ['true', 'false']; defaults to 'false'
+    
+# How it works
+    
+If neither `w` or `h` is not specified, the original image will be cached (if not already) and displayed:
 
     GET /?url=http://sample.com/image.jpg
-    {"x":1200,"y":500}
     
-Run `npm bundle` to pull the latest dependencies.
-To run the server, `cd` into the base directory, and run:
-  
-    node app/server.js
+If either `w` or `h` is specified, the original image will be cached (if not already), thumbnailed to specified size and cached (if not already), and displayed:
+
+    GET /?url=http://sample.com/image.jpg&w=50
+    
+If either `w` or `h` and `method` is specified, then the original image will be cached (if not already), thumbnailed using the specified `method` and cached (if not already), and displayed:
+
+    GET /?url=http://sample.com/image.jpg&w=50&method=resize
+    
+If the parameter `info=true` is added, then the width and height of the image is returned in JSON format
+
+    GET /?url=http://sample.com/image.jpg&w=50&method=resize&info=true
+    {"x":1200,"y":500}
     
 ## Copyright
     
