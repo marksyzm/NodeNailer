@@ -16,7 +16,7 @@ app.get('/', function(req, res) {
   
   for (i in params) {
     var errors = [];
-    if (['wanted', 'url', 'w', 'h', 'method'].indexOf(i) == -1)
+    if (['url', 'w', 'h', 'method', 'info'].indexOf(i) == -1)
       errors.push("Parameter '" + i + "' is not allowed.'");
 
     if (typeOf(params[i]) == 'array')
@@ -48,45 +48,42 @@ app.get('/', function(req, res) {
     return;
   }
   
-  if (params['method'] && ['crop', 'resize'].indexOf(params['method']) == -1) {
-    util.log(params['method'] + ' is an invalid method.');
-    res.send(404);
-    return;
-  } else {
+  if (!params['method'] || (params['method'] && ['crop', 'resize'].indexOf(params['method']) == -1)) {
     params['method'] = 'crop';
   }
 
-  //  if either the width or height parameter is specified, a thumb is wanted
-  //  else want the original
-  params.wanted = params.wanted || (params.w || params.h ? 'thumb' : 'orig');
-  if (params.wanted == 'orig') {
-    //  delete the unnecessary parameters
-    for (i in params)
-      if (['wanted', 'url'].indexOf(i) == -1) delete params[i];
-  }
-  
-  util.log("Requested image params: " + JSON.stringify(params));
-  
   //  alphabetize the query for the sha
   params = Object.alphabetize(params);
   
+  util.log("Requested image params: " + JSON.stringify(params));
+  
   (function() {
-    var callback = function(err, source, save_to) {
+    var callback = function(err, source, saveTo) {
       if (err) {
         util.log(JSON.stringify(err));
         return res.send(err.message);
       }
-      
-      res.contentType(save_to);
-      res.sendfile(save_to);
+      if (params.info) {
+        nn.grabInfo(saveTo, function(err, info) {
+          if (err) return res.send(404);
+          
+          var repackage = {
+            x: info.width,
+            y: info.height
+          }
+          
+          res.send(repackage);
+        });
+      } else {
+        res.contentType(saveTo);
+        res.sendfile(saveTo);
+      }
     };
     
-    if (params.wanted == 'orig') {
-      nn.grabOriginal(params.url, callback)
-    } else {
-      nn.grabThumbnail(params, callback);
-    }
-    
+    if (!params.w && !params.h)
+      nn.grabOriginal(params.url, callback);
+    else
+      nn.grabThumbnail(params, callback);    
   })();
 });
 
