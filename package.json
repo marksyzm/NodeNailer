@@ -2,7 +2,10 @@
   "name":"nodenailer",
   "version":"0.0.1",
   "dependencies":{
-    "zappa":"0.1.3",
-    "imagemagick":"0.1.1"
+    "imagemagick":"0.1.1",
+    "vows":"",
+    "request":"",
+    "express":"",
+    "bufferlist":""
   }
 }

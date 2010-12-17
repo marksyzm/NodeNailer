@@ -1,12 +1,13 @@
 #!/usr/bin/env bin/coffee
 
-require.paths.unshift("/Users/vanpelt/Development/dolores/nodenailer/vendor")
+require.paths.unshift(__dirname + '/../node_modules')
 
 zappa = require 'zappa'
 coffee = require 'coffee-script'
 fs = require 'fs'
 path = require 'path'
 puts = console.log
+inspect = require('util').inspect
 spawn = require('child_process').spawn
 OptionParser = require('coffee-script/optparse').OptionParser
 child = null
@@ -36,7 +37,10 @@ compile = (coffee_path) ->
     fs.writeFile js_path, js
 
 remove_watch_option = ->
-  process.argv.splice(process.argv.indexOf('-w'), 1).splice(process.argv.indexOf('--watch'), 1)
+  i = process.argv.indexOf('-w')
+  process.argv.splice(i, 1) if i > -1
+  i = process.argv.indexOf('--watch')
+  process.argv.splice(i, 1) if i > -1
 
 spawn_child = ->
   child = spawn 'zappa', process.argv
@@ -47,7 +51,7 @@ spawn_child = ->
       watch path.join(path.dirname(file), included) unless included in watching
       watching.push included
     puts data
-  child.stderr.on 'data', (data) -> puts data
+  child.stderr.on 'data', (data) -> puts String(data)
 
 watch = (file) ->
   fs.watchFile file, {persistent: true, interval: 500}, (curr, prev) ->
@@ -71,11 +75,18 @@ puts zappa.version if options.version
 
 if args.length > 0
   file = args[0]
-  if options.compile then compile file
-  else
-    if options.watch
-      remove_watch_option()
-      spawn_child()
-      watch file
+  
+  path.exists file, (exists) ->
+    if !exists
+      console.log "\"#{file}\" not found."
+      process.exit -1
+    
+    if options.compile
+      compile file
     else
-      zappa.run_file file, options
+      if options.watch
+        remove_watch_option()
+        spawn_child()
+        watch file
+      else
+        zappa.run_file file, options
