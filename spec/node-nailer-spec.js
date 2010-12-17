@@ -1,4 +1,4 @@
-require.paths.unshift('./node_modules');
+require.paths.unshift('./vendor');
 require.paths.unshift('./lib');
 
 var vows = require('vows'),
@@ -89,17 +89,6 @@ vows.describe('NodeNailer Core').addBatch({
 }).run({ error: false });
 
 vows.describe('NodeNailer Web Server').addBatch({
-  'starts up': {
-    topic: function() {
-      server = spawn('node', ['app/nodenailer.js']);
-      return true;
-    },
-    
-    'it starts fine': function() {
-      assert.equal(true, true);
-    }
-  }
-}).addBatch({
   'when requesting a valid image': {
     topic: function() {
       request({
@@ -155,17 +144,6 @@ vows.describe('NodeNailer Web Server').addBatch({
 
     'we get a domain name error': function(err, res, body) {
       assert.match(body, /Domain name/);
-    }
-  }
-}).addBatch({
-  'shuts down': {
-    topic: function() {
-      server.kill();
-      return true;
-    },
-    
-    'without error': function() {
-      assert.equal(true, true);
     }
   }
 }).run({ error: false }); // Run it

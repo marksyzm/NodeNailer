@@ -1,4 +1,4 @@
-require.paths.unshift('./node_modules');
+require.paths.unshift('./vendor');
 require.paths.unshift('./lib');
 
 var express = require('express'),

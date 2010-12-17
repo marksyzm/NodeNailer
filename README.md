@@ -4,8 +4,9 @@ This is a small Node app built using express framework on top of node to thumbna
 Currently it accepts a publicly available image url as a query parameter, caches the original image, and then exposes arbitrary thumbnail sizes.  Node was chosen to avoid backing up the request loop while images are cached and thumbnailed.
 
 # Starting the server
-Run `npm bundle` to pull the latest dependencies.
-From the base directory, run:
+* Run `npm bundle` to pull the latest dependencies, which creates a folder called `node_modules`
+* Rename `node_modules` to `vendor`
+* Run:
 
 `node app/server.js`
     
@@ -34,6 +35,11 @@ If the parameter `info=true` is added, then the width and height of the image is
 
     GET /?url=http://sample.com/image.jpg&w=50&method=resize&info=true
     {"x":1200,"y":500}
+    
+# How to run specs
+Fire up the server, and run:
+
+`node spec/node-nailer-spec.js`
     
 ## Copyright
     
