@@ -12,7 +12,8 @@ If `w` or `h` are not specified, the image will be cached and the width and heig
     GET /?url=http://sample.com/image.jpg
     {"x":1200,"y":500}
     
-All dependencies are stored in vendor.  You can use `npm bundle` to pull the latest dependencies.  Both the zappa and coffee executables have been altered to load the vendored dependancies.  `cd` into the base directory, and run:
+Run `npm bundle` to pull the latest dependencies.
+To run the server, `cd` into the base directory, and run:
   
     node app/server.js
     
