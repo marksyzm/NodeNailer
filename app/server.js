@@ -87,4 +87,12 @@ app.get('/', function(req, res) {
   })();
 });
 
+//  accepts a post "body" of urls that "warms" the cache
+app.post('/warm', function(req, res) {
+  Array.from(req.param('url')).each(function(a) {
+    nn.grabOriginal(a, function(err, save_to) {});
+  });
+  res.send(200);
+});
+
 app.listen(3000);
