@@ -11,6 +11,8 @@ var app = express.createServer(
   express.bodyDecoder()
 );
 
+var port = 3000;
+
 app.get('/', function(req, res) {
   params = req.query;
   
@@ -87,4 +89,6 @@ app.get('/', function(req, res) {
   })();
 });
 
-app.listen(3000);
+app.listen(port);
+
+console.log('Server running on port ' + port);
