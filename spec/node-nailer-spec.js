@@ -138,11 +138,12 @@ vows.describe('NodeNailer Web Server').addBatch({
       assert.equal(res.statusCode, 200);
     },
     
-    'we get a text/html content type': function(err, res, body) {
-      assert.match(res.headers['content-type'], /^text\/html/);
+    'we get a applicaton/json content type': function(err, res, body) {
+      assert.match(res.headers['content-type'], /^application\/json/);
     },
 
     'we get a domain name error': function(err, res, body) {
+      body = JSON.stringify(body);
       assert.match(body, /Domain name/);
     }
   }

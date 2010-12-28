@@ -2,6 +2,7 @@ require.paths.unshift('./vendor');
 require.paths.unshift('./lib');
 
 var express = require('express'),
+    path = require('path'),
     nn = require('node-nailer'),
     util = require('util');
 
@@ -17,16 +18,16 @@ app.get('/', function(req, res) {
   params = req.query;
   
   for (i in params) {
-    var errors = [];
-    if (['url', 'w', 'h', 'method', 'info'].indexOf(i) == -1)
-      errors.push("Parameter '" + i + "' is not allowed.'");
-
-    if (typeOf(params[i]) == 'array')
-      errors.push("Parameter '" + i + "' was specified twice");
+    var errors = null;
     
-    if (errors.length > 0) {
-      util.log(JSON.stringify(errors));
-      res.send(JSON.stringify(errors));
+    if (['url', 'w', 'h', 'method', 'info'].indexOf(i) == -1)
+      errors = "Parameter '" + i + "' is not allowed.'";
+    else if (typeOf(params[i]) == 'array')
+      errors = "Parameter '" + i + "' was specified twice";
+    
+    if (errors) {
+      util.inspect(errors);
+      res.send({ error: errors });
       return;
     }
   }
@@ -34,7 +35,6 @@ app.get('/', function(req, res) {
   if (!params.url) {
     util.log('No URL provided')
     
-    //  this shit doesn't work
     //  no way to detect if coming from img tag based on headers
     //  http://stackoverflow.com/questions/4063123
     if (req.headers.accept.test("image")) {
@@ -60,8 +60,9 @@ app.get('/', function(req, res) {
   (function() {
     var callback = function(err, source, saveTo) {
       if (err) {
-        util.log(JSON.stringify(err));
-        return res.send(err.message);
+        util.log('Error');
+        util.inspect(err);
+        return res.send({ error: err.message });
       }
       if (params.info) {
         nn.grabInfo(saveTo, function(err, info) {
@@ -74,9 +75,18 @@ app.get('/', function(req, res) {
           
           res.send(repackage);
         });
-      } else {
-        res.contentType(saveTo);
-        res.sendfile(saveTo);
+      } else {  
+        //  make sure the saveTo path exists
+        path.exists(saveTo, function(exists) {
+          if (!exists) {
+            util.log("Image unreadable, retrying: " + saveTo);
+            
+            return callback.delay(50, this, [err, source, saveTo]);
+          }
+          
+          res.contentType(saveTo);
+          res.sendfile(saveTo);
+        });
       }
     };
     
