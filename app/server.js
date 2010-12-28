@@ -15,6 +15,15 @@ var app = express.createServer(
 var port = 3000;
 
 app.get('/', function(req, res) {
+  //  check referrer
+  if (process.argv[2]) {
+    if (req.headers.referer) {
+      if (!req.headers.referer.test(process.argv[2])) return res.send(404);
+    } else {
+      return res.send(404);
+    }
+  }
+  
   params = req.query;
   
   for (i in params) {

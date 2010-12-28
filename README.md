@@ -13,8 +13,12 @@ You'll need nodejs, npm and imagemagick.
 * Rename `node_modules` to `vendor`
 * Run:
 
-`node app/server.js`
-    
+    node app/server.js
+
+* There is an optional "referrer" argument to the node server that will only allow requests from a certain referrer.  For example, this will limit referrers to crowdflower.com:
+
+    node app/server.js crowdflower.com
+
 # Parameters
 
 * w = width in pixels; required
