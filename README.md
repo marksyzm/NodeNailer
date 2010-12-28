@@ -11,13 +11,8 @@ You'll need nodejs, npm and imagemagick.
 
 * Run `npm bundle` to pull the latest dependencies, which creates a folder called `node_modules`
 * Rename `node_modules` to `vendor`
-* Run:
-
-`node app/server.js`
-
-* There is an optional "referrer" argument to the node server that will only allow requests from a certain referrer.  For example, this will limit referrers to crowdflower.com:
-
-`node app/server.js crowdflower.com`
+* Run: `node app/server.js`
+* There is an optional "referrer" argument to the node server that will only allow requests from a certain referrer.  For example, this will limit referrers to crowdflower.com: `node app/server.js crowdflower.com`
 
 # Parameters
 
@@ -42,8 +37,8 @@ If either `w` or `h` and `method` is specified, then the original image will be 
     
 If the parameter `info=true` is added, then the width and height of the image is returned in JSON format
 
-`GET /?url=http://sample.com/image.jpg&w=50&method=resize&info=true
-{"width":1200,"height":500}`
+`GET /?url=http://sample.com/image.jpg&w=50&method=resize&info=true`
+`{"width":1200,"height":500}`
     
 # How to run specs
 Fire up the server, and run:
