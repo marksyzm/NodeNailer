@@ -13,11 +13,11 @@ You'll need nodejs, npm and imagemagick.
 * Rename `node_modules` to `vendor`
 * Run:
 
-    node app/server.js
+`node app/server.js`
 
 * There is an optional "referrer" argument to the node server that will only allow requests from a certain referrer.  For example, this will limit referrers to crowdflower.com:
 
-    node app/server.js crowdflower.com
+`node app/server.js crowdflower.com`
 
 # Parameters
 
@@ -30,20 +30,20 @@ You'll need nodejs, npm and imagemagick.
     
 If neither `w` or `h` is specified, the original image will be cached (if not already) and displayed:
 
-    GET /?url=http://sample.com/image.jpg
+`GET /?url=http://sample.com/image.jpg`
     
 If either `w` or `h` is specified, the original image will be cached (if not already), thumbnailed to specified size and cached (if not already), and displayed:
 
-    GET /?url=http://sample.com/image.jpg&w=50
+`GET /?url=http://sample.com/image.jpg&w=50`
     
 If either `w` or `h` and `method` is specified, then the original image will be cached (if not already), thumbnailed using the specified `method` and cached (if not already), and displayed:
 
-    GET /?url=http://sample.com/image.jpg&w=50&method=resize
+`GET /?url=http://sample.com/image.jpg&w=50&method=resize`
     
 If the parameter `info=true` is added, then the width and height of the image is returned in JSON format
 
-    GET /?url=http://sample.com/image.jpg&w=50&method=resize&info=true
-    {"width":1200,"height":500}
+`GET /?url=http://sample.com/image.jpg&w=50&method=resize&info=true
+{"width":1200,"height":500}`
     
 # How to run specs
 Fire up the server, and run:
