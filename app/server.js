@@ -58,10 +58,10 @@ app.get('/', function(req, res) {
   util.log("Requested image params: " + JSON.stringify(params));
   
   (function() {
-    var callback = function(err, source, saveTo) {
+    var callback = function(err, source, saveTo, nb_tries) {
       if (err) {
         util.log('Error');
-        util.inspect(err);
+        util.log(JSON.stringify(err));
         return res.send({ error: err.message });
       }
       if (params.info) {
@@ -79,11 +79,14 @@ app.get('/', function(req, res) {
         //  make sure the saveTo path exists
         path.exists(saveTo, function(exists) {
           if (!exists) {
-            util.log("Image unreadable, retrying: " + saveTo);
+            nb_tries = nb_tries || 1;
             
-            return callback.delay(50, this, [err, source, saveTo]);
+            util.log("Image unreadable, retry #" + nb_tries + ": " + saveTo);
+            
+            return callback.delay(100, this, [err, source, saveTo, ++nb_tries]);
           }
           
+          util.log("Serving Image: " + saveTo)
           res.contentType(saveTo);
           res.sendfile(saveTo);
         });
