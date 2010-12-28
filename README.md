@@ -3,7 +3,12 @@
 This is a small Node app built using express framework on top of node to thumbnail images.  
 Currently it accepts a publicly available image url as a query parameter, caches the original image, and then exposes arbitrary thumbnail sizes.  Node was chosen to avoid backing up the request loop while images are cached and thumbnailed.
 
+# Prerequisites
+
+You'll need nodejs, npm and imagemagick.
+
 # Starting the server
+
 * Run `npm bundle` to pull the latest dependencies, which creates a folder called `node_modules`
 * Rename `node_modules` to `vendor`
 * Run:
