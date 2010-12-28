@@ -28,7 +28,7 @@ app.get('/', function(req, res) {
       return;
     }
     
-    params[i] = params[i].toLowerCase();
+    if (i != "url") params[i] = params[i].toLowerCase();
   }
   
   if (!params.url) {
@@ -68,8 +68,8 @@ app.get('/', function(req, res) {
           if (err) return res.send(404);
           
           var repackage = {
-            x: info.width,
-            y: info.height
+            width: info.width,
+            height: info.height
           }
           
           res.send(repackage);
@@ -88,6 +88,8 @@ app.get('/', function(req, res) {
 });
 
 //  accepts a post "body" of urls that "warms" the cache
+//  eg.
+//  url=http://image.com/image.jpg&url=http://image2.com/image2.jpg
 app.post('/warm', function(req, res) {
   Array.from(req.param('url')).each(function(a) {
     nn.grabOriginal(a, function(err, save_to) {});

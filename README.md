@@ -19,7 +19,7 @@ Currently it accepts a publicly available image url as a query parameter, caches
     
 # How it works
     
-If neither `w` or `h` is not specified, the original image will be cached (if not already) and displayed:
+If neither `w` or `h` is specified, the original image will be cached (if not already) and displayed:
 
     GET /?url=http://sample.com/image.jpg
     
@@ -34,7 +34,7 @@ If either `w` or `h` and `method` is specified, then the original image will be 
 If the parameter `info=true` is added, then the width and height of the image is returned in JSON format
 
     GET /?url=http://sample.com/image.jpg&w=50&method=resize&info=true
-    {"x":1200,"y":500}
+    {"width":1200,"height":500}
     
 # How to run specs
 Fire up the server, and run:
