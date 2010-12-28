@@ -29,8 +29,6 @@ app.get('/', function(req, res) {
       res.send(JSON.stringify(errors));
       return;
     }
-    
-    if (i != "url") params[i] = params[i].toLowerCase();
   }
   
   if (!params.url) {
