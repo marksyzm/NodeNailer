@@ -87,7 +87,7 @@ app.get('/', function(req, res) {
       } else {  
         //  make sure the saveTo path exists
         path.exists(saveTo, function(exists) {
-          if (!exists) {
+          if (!exists && nb_tries < 10) {
             nb_tries = nb_tries || 1;
             
             util.log("Image unreadable, retry #" + nb_tries + ": " + saveTo);
