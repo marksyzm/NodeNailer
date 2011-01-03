@@ -13,8 +13,9 @@ var app = express.createServer(
 );
 
 var port = 3000;
+var tries = 0;
 
-app.get('/', function(req, res) {
+app.get('/', function fn(req, res) {
   //  check referrer
   if (process.argv[2]) {
     if (req.headers.referer) {
@@ -40,9 +41,9 @@ app.get('/', function(req, res) {
       return;
     }
   }
-  
+  util.log(params.url);
   if (!params.url) {
-    util.log('No URL provided')
+    util.log('No URL provided');
     
     //  no way to detect if coming from img tag based on headers
     //  http://stackoverflow.com/questions/4063123
@@ -84,20 +85,29 @@ app.get('/', function(req, res) {
           
           res.send(repackage);
         });
-      } else {  
+      } else {
+        var workaround = function() {
+          tries++;
+          
+          if (tries > 10) {
+            util.log("Number of tries have been exhausted, serving 404 instead for URL: " + params.url);
+            res.send(404);
+          } else {
+            util.log("Refreshing request try #(" + tries + ") for URL: " + params.url);
+            fn.delay(1000, fn, [req, res]);
+          }
+        }
+        
         //  make sure the saveTo path exists
         path.exists(saveTo, function(exists) {
-          if (!exists && nb_tries < 10) {
-            nb_tries = nb_tries || 1;
-            
-            util.log("Image unreadable, retry #" + nb_tries + ": " + saveTo);
-            
-            return callback.delay(100, this, [err, source, saveTo, ++nb_tries]);
-          }
+          if (!exists) return workaround();
           
-          util.log("Serving Image: " + saveTo)
           res.contentType(saveTo);
-          res.sendfile(saveTo);
+          res.sendfile(saveTo, function(err, path) {
+            if (err) return workaround();
+            
+            util.log("Serving Image for URL: " + params.url)
+          });
         });
       }
     };
