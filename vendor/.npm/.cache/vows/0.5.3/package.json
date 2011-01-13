@@ -1,0 +1,37 @@
+{
+  "name": "vows",
+  "description": "Asynchronous BDD & continuous integration for node.js",
+  "url": "http://vowsjs.org",
+  "keywords": [
+    "testing",
+    "spec",
+    "test",
+    "BDD"
+  ],
+  "author": {
+    "name": "Alexis Sellier",
+    "email": "self@cloudhead.net"
+  },
+  "contributors": [],
+  "dependencies": {
+    "eyes": ">=0.1.6"
+  },
+  "main": "./lib/vows",
+  "bin": {
+    "vows": "./bin/vows"
+  },
+  "directories": {
+    "test": "./test"
+  },
+  "version": "0.5.3",
+  "_id": "vows@0.5.3",
+  "engines": {
+    "node": "*"
+  },
+  "_engineSupported": true,
+  "_npmVersion": "0.2.13-1",
+  "_nodeVersion": "v0.2.5",
+  "dist": {
+    "shasum": "b7d298aa819da2e1f62b5ab48802d39e143f6743"
+  }
+}
