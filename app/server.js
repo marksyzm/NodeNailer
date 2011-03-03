@@ -13,14 +13,18 @@ var app = express.createServer(
 );
 
 var port = 3000;
-var tries = 0;
+app.get('/', function fn(req, res, tries) {
+  tries = tries || 0
 
-app.get('/', function fn(req, res) {
-  //  check referrer
+  //  check referer
   if (process.argv[2]) {
     if (req.headers.referer) {
-      if (!req.headers.referer.test(process.argv[2])) return res.send(404);
+      if (!req.headers.referer.test(process.argv[2])) {
+        util.log("Unallowed Referer");
+        return res.send(404);
+      }
     } else {
+      util.log("Bad Referer");
       return res.send(404);
     }
   }
@@ -52,7 +56,7 @@ app.get('/', function fn(req, res) {
       res.contentType('./fixtures/error.jpg');
       res.sendfile('./fixtures/error.jpg');
     } else {
-      util.log('Showing 404');
+      util.log('Bad Accept Header');
       res.send(404);
     }
     return;
@@ -68,7 +72,7 @@ app.get('/', function fn(req, res) {
   util.log("Requested image params: " + JSON.stringify(params));
   
   (function() {
-    var callback = function(err, source, saveTo, nb_tries) {
+    var callback = function(err, source, saveTo) {
       if (err) {
         util.log('Error');
         util.log(JSON.stringify(err));
@@ -76,7 +80,10 @@ app.get('/', function fn(req, res) {
       }
       if (params.info) {
         nn.grabInfo(saveTo, function(err, info) {
-          if (err) return res.send(404);
+          if (err) {
+            util.log("Unable to grab info");
+            return res.send(404);
+          }
           
           var repackage = {
             width: info.width,
@@ -94,7 +101,7 @@ app.get('/', function fn(req, res) {
             res.send(404);
           } else {
             util.log("Refreshing request try #(" + tries + ") for URL: " + params.url);
-            fn.delay(1000, fn, [req, res]);
+            fn.delay(5000, fn, [req, res, tries]);
           }
         }
         
