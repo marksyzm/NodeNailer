@@ -1,0 +1,31 @@
+{
+  "name": "imagemagick",
+  "description": "A wrapper around the imagemagick cli",
+  "version": "0.1.1",
+  "author": {
+    "name": "Rasmus Andersson"
+  },
+  "licenses": [
+    {
+      "type": "MIT"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/rsms/node-imagemagick.git"
+  },
+  "engine": [
+    "node >=0.1.90"
+  ],
+  "main": "imagemagick",
+  "_id": "imagemagick@0.1.1",
+  "engines": {
+    "node": "*"
+  },
+  "_engineSupported": true,
+  "_npmVersion": "0.2.13-1",
+  "_nodeVersion": "v0.2.5",
+  "dist": {
+    "shasum": "8f051ea30a19a0d0187a00ba06438ae4868343df"
+  }
+}

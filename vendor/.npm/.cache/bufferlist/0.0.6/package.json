@@ -1,0 +1,32 @@
+{
+  "name": "bufferlist",
+  "version": "0.0.6",
+  "description": "Create linked lists of Buffer objects",
+  "directories": {
+    "lib": "./lib"
+  },
+  "main": "./bufferlist",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/substack/node-bufferlist.git"
+  },
+  "devDependencies": {
+    "expresso": ">= 0.7.2"
+  },
+  "scripts": {
+    "test": "expresso"
+  },
+  "engine": [
+    "node >=0.1.97"
+  ],
+  "_id": "bufferlist@0.0.6",
+  "engines": {
+    "node": "*"
+  },
+  "_engineSupported": true,
+  "_npmVersion": "0.2.13-1",
+  "_nodeVersion": "v0.2.5",
+  "dist": {
+    "shasum": "43c4f74d7adbb9ee27d0917f6a4130a696953ceb"
+  }
+}
