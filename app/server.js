@@ -17,7 +17,6 @@ app.get('/', function fn(req, res, tries) {
   tries = tries || 0
 
   // check referer
-  /*
   if (process.argv[2]) {
     if (req.headers.referer) {
       if (!req.headers.referer.test(process.argv[2])) {
@@ -25,11 +24,12 @@ app.get('/', function fn(req, res, tries) {
         return res.send(404);
       }
     } else {
+      /*
       util.log("Bad Referer");
       return res.send(404);
+      */
     }
   }
-  */
   
   params = req.query;
   
