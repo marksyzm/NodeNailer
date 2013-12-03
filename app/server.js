@@ -1,6 +1,8 @@
 require.paths.unshift('./vendor');
 require.paths.unshift('./lib');
 
+require('newrelic');
+
 var express = require('express'),
     path = require('path'),
     nn = require('node-nailer'),
