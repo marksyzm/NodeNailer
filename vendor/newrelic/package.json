@@ -86,9 +86,5 @@
     "continuation-local-storage"
   ],
   "_id": "newrelic@1.1.1",
-  "dist": {
-    "shasum": "6ab3b5210d3937cee22787c1b54780f8b9548618"
-  },
-  "_from": "newrelic@",
-  "_resolved": "https://registry.npmjs.org/newrelic/-/newrelic-1.1.1.tgz"
+  "_from": "newrelic@"
 }
