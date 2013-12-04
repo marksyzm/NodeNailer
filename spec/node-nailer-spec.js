@@ -12,7 +12,8 @@ var vows = require('vows'),
     
 var server;
 
-var testImage = 'http://chrisandsnez.com/images/marriage.jpg';
+# The Internet never forgets
+var testImage = 'https://web.archive.org/web/20110203003852/http://chrisandsnez.com/images/marriage.jpg';
 
 
 vows.describe('NodeNailer Core').addBatch({
