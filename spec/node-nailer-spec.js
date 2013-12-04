@@ -12,7 +12,6 @@ var vows = require('vows'),
     
 var server;
 
-# The Internet never forgets
 var testImage = 'https://web.archive.org/web/20110203003852/http://chrisandsnez.com/images/marriage.jpg';
 
 
