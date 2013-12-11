@@ -12,7 +12,7 @@ var vows = require('vows'),
     
 var server;
 
-var testImage = 'http://chrisandsnez.com/images/marriage.jpg';
+var testImage = 'https://web.archive.org/web/20110203003852/http://chrisandsnez.com/images/marriage.jpg';
 
 
 vows.describe('NodeNailer Core').addBatch({
@@ -73,16 +73,6 @@ vows.describe('NodeNailer Core').addBatch({
         'we get no error': function(err, source, saveTo) {
           assert.isNull(err);
         },
-        
-        'the thumbnailed image': {
-          topic: function(err, source, saveTo) {
-            nn.grabInfo(saveTo, this.callback);
-          },
-          
-          'is the right size': function(err, features) {
-            assert.isTrue(features.width == 50 && features.height == 50);
-          }
-        }
       }
     }
   }
@@ -124,6 +114,32 @@ vows.describe('NodeNailer Web Server').addBatch({
       var info = JSON.parse(body);
       assert.isNotNull(info.x);
       assert.isNotNull(info.y);
+    }
+  }
+}).addBatch({
+  'when cropping an image': {
+    topic: function() {
+      request({
+        uri: 'http://localhost:3000/?info=true&url=' + testImage + '&w=50&h=50&method=crop',
+      }, this.callback)
+    },
+
+    'we get a good status code': function(err, res, body) {
+      assert.equal(res.statusCode, 200);
+    },
+
+    'we get an application/json content type': function(err, res, body) {
+      assert.match(res.headers['content-type'], /^application\/json/);
+    },
+
+    'the image is the width we expect': function(err, res, body) {
+      var info = JSON.parse(body);
+      assert.isTrue(info.width == 50);
+    },
+
+    'the image is the height we expect': function(err, res, body) {
+      var info = JSON.parse(body);
+      assert.isTrue(info.height == 50);
     }
   }
 }).addBatch({

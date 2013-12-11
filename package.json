@@ -6,6 +6,7 @@
     "vows":"",
     "request":"",
     "express":"",
-    "bufferlist":""
+    "bufferlist":"",
+    "newrelic":""
   }
 }
