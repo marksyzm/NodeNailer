@@ -2,7 +2,7 @@
   "name":"nodenailer",
   "version":"0.0.1",
   "dependencies":{
-    "imagemagick":"0.1.1",
+    "imagemagick":"https://github.com/ianblenke/node-imagemagick/fix_status_method",
     "vows":"",
     "request":"",
     "express":"",
