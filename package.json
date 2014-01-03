@@ -2,7 +2,7 @@
   "name":"nodenailer",
   "version":"0.0.1",
   "dependencies":{
-    "imagemagick":"https://github.com/ianblenke/node-imagemagick",
+    "imagemagick":"",
     "vows":"",
     "request":"",
     "express":"",

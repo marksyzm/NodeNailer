@@ -1,17 +1,19 @@
-require.paths.unshift('./vendor');
-require.paths.unshift('./lib');
 
 require('newrelic');
 
 var express = require('express'),
+    app = express(),
     path = require('path'),
-    nn = require('node-nailer'),
+    fs = require('fs'),
+    nn = require('../lib/node-nailer'),
     util = require('util');
 
 //  Create the server
-var app = express.createServer(
+// express.createServer() is deprecated, express applications no longer inherit from http.Server
+app.use(
   express.logger(),
-  express.bodyDecoder()
+// express.bodyDecoder() is deprecated
+  express.bodyParser()
 );
 
 var port = 3000;
@@ -49,7 +51,8 @@ app.get('/', function fn(req, res, tries) {
       return;
     }
   }
-  util.log(params.url);
+
+//  util.log(params.url);
   if (!params.url) {
     util.log('No URL provided');
     
@@ -58,6 +61,7 @@ app.get('/', function fn(req, res, tries) {
     if (req.headers.accept.test("image")) {
       util.log('Showing Error Picture');
       res.contentType('./fixtures/error.jpg');
+//      res.set('Content-Type', 'image/jpeg');
       res.sendfile('./fixtures/error.jpg');
     } else {
       util.log('Bad Accept Header');
@@ -73,7 +77,8 @@ app.get('/', function fn(req, res, tries) {
   //  alphabetize the query for the sha
   params = Object.alphabetize(params);
   
-  util.log("Requested image params: " + JSON.stringify(params));
+// This seems like debugging information. Do we need to log it?
+//  util.log("Requested image params: " + JSON.stringify(params));
   
   (function() {
     var callback = function(err, source, saveTo) {
@@ -88,7 +93,7 @@ app.get('/', function fn(req, res, tries) {
             util.log("Unable to grab info");
             return res.send(404);
           }
-          
+
           var repackage = {
             width: info.width,
             height: info.height
@@ -110,14 +115,17 @@ app.get('/', function fn(req, res, tries) {
         }
         
         //  make sure the saveTo path exists
-        path.exists(saveTo, function(exists) {
+        //path.exists(saveTo, function(exists) {
+        fs.exists(saveTo, function(exists) {
           if (!exists) return workaround();
           
           res.contentType(saveTo);
+//          res.set('Content-Type', 'image/jpeg');
           res.sendfile(saveTo, function(err, path) {
             if (err) return workaround();
             
-            util.log("Serving Image for URL: " + params.url)
+// This seems like debugging information. Do we need to log it?
+//            util.log("Serving Image for URL: " + params.url)
           });
         });
       }
