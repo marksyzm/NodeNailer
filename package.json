@@ -2,11 +2,15 @@
   "name":"nodenailer",
   "version":"0.0.1",
   "dependencies":{
-    "imagemagick":"",
-    "vows":"",
-    "request":"",
-    "express":"",
-    "bufferlist":"",
-    "newrelic":""
+    "bufferlist": "^0.1.0",
+    "express": "^4.11.2",
+    "imagemagick": "^0.1.3",
+    "newrelic": "^1.16.2",
+    "request": "^2.53.0",
+    "vows": "^0.8.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CrowdFlower/NodeNailer.git"
   }
 }
