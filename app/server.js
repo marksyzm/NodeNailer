@@ -3,17 +3,19 @@ require('newrelic');
 
 var express = require('express'),
     app = express(),
-    path = require('path'),
     fs = require('fs'),
     nn = require('../lib/node-nailer'),
-    util = require('util');
+    util = require('util'),
+    logger = require('morgan'),
+    bodyParser = require('body-parser');
 
 //  Create the server
 // express.createServer() is deprecated, express applications no longer inherit from http.Server
 app.use(
-  express.logger(),
+  logger('combined'),
 // express.bodyDecoder() is deprecated
-  express.bodyParser()
+  bodyParser.json(),
+  bodyParser.urlencoded({ extended: true })
 );
 
 var port = 3000;
@@ -35,9 +37,9 @@ app.get('/', function fn(req, res, tries) {
     }
   }
   
-  params = req.query;
+  var params = req.query;
   
-  for (i in params) {
+  for (var i in params) {
     var errors = null;
     
     if (['url', 'w', 'h', 'method', 'info'].indexOf(i) == -1)
@@ -139,3 +141,5 @@ app.get('/', function fn(req, res, tries) {
 });
 
 app.listen(port);
+
+module.exports = app;
